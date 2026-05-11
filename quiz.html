@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Quiz - SQLearn</title>
+  <meta name="description" content="Test your SQL knowledge with 50 questions ranging from Easy to Hard. Get instant feedback with clear explanations!" />
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a href="index.html" class="logo">
+      <span class="badge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+      </span>
+      SQ<span class="accent">Learn</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html" data-route="index.html">Home</a>
+      <a href="lessons.html" data-route="lessons.html">Lessons</a>
+      <a href="editor.html" data-route="editor.html">SQL Editor</a>
+      <a href="practice.html" data-route="practice.html">Practice</a>
+      <a href="quiz.html" data-route="quiz.html">Quiz</a>
+      <a href="dashboard.html" data-route="dashboard.html">Dashboard</a>
+      <a href="about.html" data-route="about.html">About</a>
+    </nav>
+    <div class="header-right">
+      <div id="auth-nav-slot"></div>
+      <button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="menu-toggle" data-menu-toggle aria-label="Toggle menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" style="padding:3rem 0 2rem">
+  <div class="container">
+    <span class="eyebrow">Quiz Mode</span>
+    <h1>Test your <span class="gradient-text">SQL knowledge.</span></h1>
+    <p class="lead">50 questions in the pool, 10 random questions per session. Three difficulty levels. Instant feedback with a clear explanation on every answer to help you understand why you got it right or wrong.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:1.5rem">
+  <div class="container">
+
+    <div class="diff-filter">
+      <button class="diff-btn active" data-diff="all">All Questions</button>
+      <button class="diff-btn" data-diff="easy">Easy</button>
+      <button class="diff-btn" data-diff="medium">Medium</button>
+      <button class="diff-btn" data-diff="hard">Hard</button>
+      <button class="speed-round-toggle" id="speed-round-toggle" aria-pressed="false" title="30 seconds per question">
+        Speed Round
+      </button>
+    </div>
+
+    <div class="quiz-layout">
+      <div id="quiz-container">
+        <div class="quiz-card">
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div>
+          </div>
+          <div class="quiz-meta">
+            <span class="quiz-number" id="q-number">Question 1 of 10</span>
+            <span class="difficulty-badge easy" id="q-difficulty">Easy</span>
+          </div>
+          <div class="quiz-question" id="q-text">Loading question...</div>
+          <div class="quiz-options" id="q-options"></div>
+          <div class="quiz-feedback" id="q-feedback"></div>
+          <div class="quiz-actions">
+            <button class="btn btn-primary" id="next-btn" style="display:none">
+              Next Question
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="quiz-sidebar">
+        <div class="score-card">
+          <h3 style="margin-bottom:1rem;font-size:1rem">Your Score</h3>
+          <div class="score-ring">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="var(--border)" stroke-width="8"/>
+              <circle id="score-circle" cx="50" cy="50" r="40" fill="none"
+                stroke="var(--primary)" stroke-width="8"
+                stroke-dasharray="0 251.3"
+                stroke-linecap="round"
+                style="transition:stroke-dasharray .4s ease"/>
+            </svg>
+            <div class="score-text">
+              <span class="score-num" id="score-num">0%</span>
+              <span class="score-lbl">score</span>
+            </div>
+          </div>
+          <div class="score-breakdown">
+            <div class="score-row green"><span>Correct</span><span id="score-correct">0</span></div>
+            <div class="score-row red"><span>Wrong</span><span id="score-wrong">0</span></div>
+            <div class="score-row"><span>Remaining</span><span id="score-remain">10</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 style="font-size:.9rem;margin-bottom:.75rem">Score Guide</h4>
+          <div style="display:flex;flex-direction:column;gap:.4rem;font-size:.85rem">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>90–100%</span><span style="display:flex;align-items:center;gap:.35rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Excellent!</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>75–89%</span><span style="display:flex;align-items:center;gap:.35rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Great Job!</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>50–74%</span><span style="display:flex;align-items:center;gap:.35rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Keep going!</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span>Below 50%</span><span style="display:flex;align-items:center;gap:.35rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> Study more</span></div>
+          </div>
+        </div>
+
+        <a href="lessons.html" class="btn btn-outline" style="text-align:center;justify-content:center">
+          Review Lessons
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <div class="logo" style="margin-bottom:.75rem">
+          <span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+          SQ<span class="accent">Learn</span>
+        </div>
+        <p style="color:var(--muted);font-size:.9rem;max-width:42ch">A structured, beginner-friendly Microsoft SQL tutorial built for BSIT students at Pamantasan ng Lungsod ng Valenzuela.</p>
+      </div>
+      <div><h4>Learn</h4><ul><li><a href="lessons.html">All lessons</a></li><li><a href="editor.html">SQL Editor</a></li><li><a href="practice.html">Practice</a></li></ul></div>
+      <div><h4>Assess</h4><ul><li><a href="quiz.html">Quiz</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+      <div><h4>Project</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="account.html">My Account</a></li></ul></div>
+    </div>
+    <div class="bottom">© <span data-year></span> SQLearn. Built with care for future developers.
+      <span style="margin:0 .5rem;color:var(--border)">|</span>
+      <a href="privacy.html" style="color:var(--muted)">Privacy Policy</a>
+      <span style="margin:0 .35rem;color:var(--border)">&bull;</span>
+      <a href="terms.html" style="color:var(--muted)">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

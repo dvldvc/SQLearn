@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>My Account - SQLearn</title>
+  <meta name="description" content="Manage your SQLearn account, settings, and quiz history." />
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a href="index.html" class="logo">
+      <span class="badge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+      </span>
+      SQ<span class="accent">Learn</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html" data-route="index.html">Home</a>
+      <a href="lessons.html" data-route="lessons.html">Lessons</a>
+      <a href="editor.html" data-route="editor.html">SQL Editor</a>
+      <a href="practice.html" data-route="practice.html">Practice</a>
+      <a href="quiz.html" data-route="quiz.html">Quiz</a>
+      <a href="dashboard.html" data-route="dashboard.html">Dashboard</a>
+      <a href="about.html" data-route="about.html">About</a>
+    </nav>
+    <div class="header-right">
+      <div id="auth-nav-slot"></div>
+      <button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="menu-toggle" data-menu-toggle aria-label="Toggle menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="account-hero"></div>
+
+<div id="account-gate" style="display:none;text-align:center;padding:5rem 1rem">
+  <div style="font-size:3rem;margin-bottom:1rem;color:var(--primary);font-weight:700">-</div>
+  <h2 style="margin-bottom:.5rem">You're not logged in</h2>
+  <p style="color:var(--muted);margin-bottom:1.5rem">Create a free account to access your profile, track progress, and save quiz scores.</p>
+  <button class="btn btn-primary" onclick="openAuthModal('register')">Create Free Account →</button>
+  <span style="margin:0 .75rem;color:var(--muted)">or</span>
+  <button class="btn btn-outline" onclick="openAuthModal('login')">Log In</button>
+</div>
+
+<section class="section" style="padding-top:2rem" id="account-content" style="display:none">
+  <div class="container">
+    <div class="profile-grid">
+
+
+      <div class="profile-sidebar">
+        <div class="card" style="padding:1.25rem;text-align:center">
+          <div class="profile-avatar-upload" id="acc-avatar-big" style="margin:0 auto 1rem" title="Click to change photo">
+            <div class="profile-avatar-wrap" id="acc-avatar-inner"></div>
+            <div class="avatar-upload-overlay">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Change Photo</span>
+            </div>
+            <input type="file" id="avatar-file-input" accept="image/*" style="display:none" />
+          </div>
+          <div style="font-weight:700;font-size:1.1rem" id="acc-name-display">-</div>
+          <div style="color:var(--muted);font-size:.85rem;margin-top:.25rem" id="acc-email-display">-</div>
+          <div style="font-size:.78rem;color:var(--primary);margin-top:.6rem;font-weight:600" id="acc-joined-display"></div>
+        </div>
+
+        <div class="card" style="padding:.5rem">
+          <button class="profile-nav-item active" data-profile-tab="overview">Overview</button>
+          <button class="profile-nav-item" data-profile-tab="settings">Settings</button>
+          <button class="profile-nav-item" data-profile-tab="history">Quiz History</button>
+          <button class="profile-nav-item" data-profile-tab="edit">Edit Profile</button>
+          <div class="dd-divider" style="margin:.35rem .85rem"></div>
+          <button class="profile-nav-item" id="acc-logout-btn" style="color:#c0392b">Log Out</button>
+        </div>
+      </div>
+
+
+      <div>
+
+
+        <div class="profile-section active" id="profile-overview">
+          <h2 style="margin-bottom:1.25rem">Overview</h2>
+          <div class="grid cols-3" style="margin-bottom:1.5rem">
+            <div class="card" style="text-align:center">
+              <div style="font-family:'DM Serif Display',serif;font-size:2.25rem;font-weight:700;color:var(--primary)" id="acc-lessons-done">0</div>
+              <div style="font-size:.82rem;color:var(--muted);margin-top:.25rem">Lessons Completed</div>
+            </div>
+            <div class="card" style="text-align:center">
+              <div style="font-family:'DM Serif Display',serif;font-size:2.25rem;font-weight:700;color:var(--primary)" id="acc-best-score">-</div>
+              <div style="font-size:.82rem;color:var(--muted);margin-top:.25rem">Best Quiz Score</div>
+            </div>
+            <div class="card" style="text-align:center">
+              <div style="font-family:'DM Serif Display',serif;font-size:2.25rem;font-weight:700;color:var(--primary)" id="acc-total-quizzes">0</div>
+              <div style="font-size:.82rem;color:var(--muted);margin-top:.25rem">Quizzes Taken</div>
+            </div>
+          </div>
+          <div class="card">
+            <h3 style="font-size:1rem;margin-bottom:1rem">Lesson Progress</h3>
+            <div class="overall-bar" style="margin-bottom:.5rem">
+              <div class="overall-fill" id="acc-progress-bar" style="width:0%"></div>
+            </div>
+            <div style="font-size:.82rem;color:var(--muted)" id="acc-progress-text">0 / 8 lessons done</div>
+            <div style="margin-top:1.25rem">
+              <a href="lessons.html" class="btn btn-primary btn-sm">Continue Learning</a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="profile-section" id="profile-settings">
+          <h2 style="margin-bottom:1.25rem">Settings</h2>
+          <div class="card">
+            <div class="setting-row">
+              <div>
+                <div class="setting-label">Plain-English Explanations</div>
+                <div class="setting-desc">Show beginner-friendly concept explanations inside lessons</div>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="pref-taglish" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-row">
+              <div>
+                <div class="setting-label">Video Tutorials</div>
+                <div class="setting-desc">Show video guides inside each lesson</div>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="pref-videos" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-row">
+              <div>
+                <div class="setting-label">Auto-mark Lessons</div>
+                <div class="setting-desc">Mark lessons as done when you open them</div>
+              </div>
+              <label class="toggle">
+                <input type="checkbox" id="pref-automark" checked />
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div style="margin-top:1rem;display:flex;gap:.75rem">
+            <button class="btn btn-primary btn-sm" id="save-settings-btn">Save Settings</button>
+            <div class="success-msg" id="settings-saved-msg" style="margin-top:0;padding:.5rem 1rem">✓ Settings saved!</div>
+          </div>
+          <div class="card" style="margin-top:1.5rem;border-color:#f5c0c0">
+            <h4 style="font-size:.9rem;color:#c0392b;margin-bottom:.5rem">Danger Zone</h4>
+            <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">This will delete all your lesson progress, quiz scores, and achievements. It cannot be undone.</p>
+            <button class="btn btn-sm" style="background:#ffe0e0;color:#8a0000;border:1px solid #f5c0c0" id="reset-all-btn">Reset All Progress</button>
+          </div>
+        </div>
+
+
+        <div class="profile-section" id="profile-history">
+          <h2 style="margin-bottom:1.25rem">Quiz History</h2>
+          <div id="quiz-history-list">
+            <div style="color:var(--muted);font-size:.9rem;padding:1rem 0">No quiz scores recorded yet. <a href="quiz.html" style="color:var(--primary);font-weight:600">Take the quiz →</a></div>
+          </div>
+        </div>
+
+
+        <div class="profile-section" id="profile-edit">
+          <h2 style="margin-bottom:1.25rem">Edit Profile</h2>
+          <div class="card" style="max-width:480px">
+            <div class="field">
+              <label for="edit-name">Full Name</label>
+              <input id="edit-name" type="text" placeholder="Maria Santos" />
+            </div>
+            <div class="field">
+              <label for="edit-email">Email</label>
+              <input id="edit-email" type="email" placeholder="you@school.edu" />
+            </div>
+            <div class="field">
+              <label for="edit-pass">New Password <span style="color:var(--muted);font-weight:400">(leave blank to keep current)</span></label>
+              <input id="edit-pass" type="password" placeholder="New password (optional)" />
+            </div>
+            <div class="auth-error" id="edit-error" style="margin-bottom:.75rem"></div>
+            <button class="btn btn-primary btn-sm" id="save-profile-btn">Save Changes</button>
+            <div class="success-msg" id="profile-saved-msg" style="margin-top:.75rem">✓ Profile updated!</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <div class="logo" style="margin-bottom:.75rem">
+          <span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+          SQ<span class="accent">Learn</span>
+        </div>
+        <p style="color:var(--muted);font-size:.9rem;max-width:42ch">A structured, beginner-friendly Microsoft SQL tutorial built for BSIT students at Pamantasan ng Lungsod ng Valenzuela.</p>
+      </div>
+      <div><h4>Learn</h4><ul><li><a href="lessons.html">All lessons</a></li><li><a href="editor.html">SQL Editor</a></li><li><a href="practice.html">Practice</a></li></ul></div>
+      <div><h4>Assess</h4><ul><li><a href="quiz.html">Quiz</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+      <div><h4>Project</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="bottom">© <span data-year></span> SQLearn. Built with care for future developers.
+      <span style="margin:0 .5rem;color:var(--border)">|</span>
+      <a href="privacy.html" style="color:var(--muted)">Privacy Policy</a>
+      <span style="margin:0 .35rem;color:var(--border)">&bull;</span>
+      <a href="terms.html" style="color:var(--muted)">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const user = getCurrentUser();
+  const gate = document.getElementById('account-gate');
+  const content = document.getElementById('account-content');
+
+  if (!user) {
+    gate.style.display = 'block';
+    return;
+  }
+  content.style.display = 'block';
+
+  // Fill profile info
+  const avInner = document.getElementById('acc-avatar-inner');
+  function renderAvatarInner(u) {
+    if (u.profilePic) {
+      avInner.style.background = 'none';
+      avInner.innerHTML = `<img src="${u.profilePic}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" />`;
+    } else {
+      avInner.style.background = '';
+      avInner.textContent = u.avatar;
+    }
+  }
+  renderAvatarInner(user);
+
+  // Photo upload
+  const fileInput = document.getElementById('avatar-file-input');
+  document.getElementById('acc-avatar-big').addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) { alert('Image must be under 2 MB.'); return; }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      // Save to users store
+      const users = getUsers();
+      if (users[user.email]) {
+        users[user.email].profilePic = dataUrl;
+        saveUsers(users);
+      }
+      // Update session
+      const session = JSON.parse(localStorage.getItem('sqlearn_auth') || 'null') || user;
+      session.profilePic = dataUrl;
+      loginUser(session);
+      // Re-render avatar
+      renderAvatarInner({ ...user, profilePic: dataUrl });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('acc-name-display').textContent = user.name;
+  document.getElementById('acc-email-display').textContent = user.email;
+
+  const users = getUsers();
+  const u = users[user.email];
+  if (u?.joinedAt) {
+    const d = new Date(u.joinedAt);
+    document.getElementById('acc-joined-display').textContent = `Member since ${d.toLocaleDateString('en-PH', {year:'numeric',month:'long'})}`;
+  }
+
+  // Stats from progress
+  const p = getProgress();
+  const lessonsArr = Object.values(p.lessons || {}).filter(l => l.done);
+  const quizHistory = p.quizHistory || [];
+  document.getElementById('acc-lessons-done').textContent = lessonsArr.length;
+  document.getElementById('acc-total-quizzes').textContent = quizHistory.length;
+  const best = quizHistory.length ? quizHistory.reduce((b, a) => a.pct > b.pct ? a : b, quizHistory[0]) : null;
+  document.getElementById('acc-best-score').textContent = best ? best.pct + '%' : '-';
+  const pct = Math.round(lessonsArr.length / 8 * 100);
+  document.getElementById('acc-progress-bar').style.width = pct + '%';
+  document.getElementById('acc-progress-text').textContent = `${lessonsArr.length} / 8 lessons done`;
+
+  // Quiz history
+  const historyList = document.getElementById('quiz-history-list');
+  if (quizHistory.length) {
+    const diffLabel = { all: 'All Questions', easy: 'Easy', medium: 'Medium', hard: 'Hard' };
+    const reversed = quizHistory.slice().reverse();
+    historyList.innerHTML = `
+      <div style="overflow-x:auto">
+        <table class="results-table" style="width:100%">
+          <thead><tr>
+            <th style="text-align:left">#</th>
+            <th style="text-align:left">Date</th>
+            <th style="text-align:left">Difficulty</th>
+            <th style="text-align:center">Score</th>
+            <th style="text-align:center">Percentage</th>
+          </tr></thead>
+          <tbody>
+            ${reversed.map((a, i, arr) => {
+              const attemptNum = arr.length - i;
+              const originalIdx = quizHistory.length - 1 - i;
+              const date = new Date(a.ts).toLocaleDateString('en-PH', { year: 'numeric', month: 'short', day: 'numeric' });
+              const pctColor = a.pct >= 75 ? 'color:#1a6640;font-weight:700' : a.pct >= 50 ? 'color:var(--primary);font-weight:700' : 'color:#c0392b;font-weight:700';
+              const badge = a.pct >= 90 ? '' : a.pct >= 75 ? '' : a.pct >= 50 ? '' : '';
+              const hasReview = a.answers && a.answers.length > 0;
+              return `<tr>
+                <td style="color:var(--muted);font-size:.85rem">Attempt ${attemptNum}</td>
+                <td style="font-size:.85rem">${date}</td>
+                <td><span class="chip">${diffLabel[a.difficulty] || a.difficulty}</span></td>
+                <td style="text-align:center">${a.score} / ${a.total}</td>
+                <td style="text-align:center;${pctColor}">${badge} ${a.pct}%</td>
+              </tr>
+              ${hasReview ? `<tr><td colspan="5" style="padding-top:0;padding-bottom:.75rem;border-bottom:1px solid var(--border)">
+                <button class="btn btn-outline btn-sm qh-review-btn" style="font-size:.8rem" data-idx="${originalIdx}">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:.3rem"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Review Answers
+                </button>
+              </td></tr>` : ''}`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:.75rem">Showing ${quizHistory.length} attempt${quizHistory.length !== 1 ? 's' : ''} - most recent first.</p>`;
+
+    // Wire up review buttons
+    historyList.querySelectorAll('.qh-review-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.idx);
+        openDashReview(quizHistory[idx]);
+      });
+    });
+  } else {
+    historyList.innerHTML = `<div style="color:var(--muted);font-size:.9rem;padding:1rem 0">No quiz attempts recorded yet. <a href="quiz.html" style="color:var(--primary);font-weight:600">Take the quiz →</a></div>`;
+  }
+
+  // Fill edit fields
+  document.getElementById('edit-name').value = user.name;
+  document.getElementById('edit-email').value = user.email;
+
+  // Profile tab switching
+  document.querySelectorAll('[data-profile-tab]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.profile-nav-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tab = btn.dataset.profileTab;
+      document.querySelectorAll('.profile-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(`profile-${tab}`)?.classList.add('active');
+    });
+  });
+
+  // Logout
+  document.getElementById('acc-logout-btn').addEventListener('click', () => {
+    logoutUser();
+    location.href = 'index.html';
+  });
+
+  // Save settings
+  document.getElementById('save-settings-btn').addEventListener('click', () => {
+    const prefs = {
+      taglish: document.getElementById('pref-taglish').checked,
+      videos: document.getElementById('pref-videos').checked,
+      automark: document.getElementById('pref-automark').checked,
+    };
+    const cur = getProgress();
+    cur.prefs = prefs;
+    setProgress(cur);
+    const msg = document.getElementById('settings-saved-msg');
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 2000);
+  });
+
+  // Load saved settings
+  const savedPrefs = p.prefs || {};
+  if (typeof savedPrefs.taglish !== 'undefined') document.getElementById('pref-taglish').checked = savedPrefs.taglish;
+  if (typeof savedPrefs.videos !== 'undefined') document.getElementById('pref-videos').checked = savedPrefs.videos;
+  if (typeof savedPrefs.automark !== 'undefined') document.getElementById('pref-automark').checked = savedPrefs.automark;
+
+  // Reset all progress - use the per-user key so we only wipe this account's data
+  document.getElementById('reset-all-btn').addEventListener('click', () => {
+    if (confirm('Reset ALL your progress? Lessons, quiz scores, and achievements will be cleared. This cannot be undone.')) {
+      // setProgress({}) writes an empty object to the correct store for this user
+      setProgress({});
+      location.reload();
+    }
+  });
+
+  // Save profile
+  document.getElementById('save-profile-btn').addEventListener('click', () => {
+    const name = document.getElementById('edit-name').value.trim();
+    const email = document.getElementById('edit-email').value.trim();
+    const pass = document.getElementById('edit-pass').value;
+    const err = document.getElementById('edit-error');
+    err.classList.remove('show');
+
+    if (!name) { err.textContent = 'Name cannot be empty.'; err.classList.add('show'); return; }
+    if (!email.includes('@')) { err.textContent = 'Please enter a valid email.'; err.classList.add('show'); return; }
+
+    const users = getUsers();
+    // If email changed, check not taken
+    if (email !== user.email && users[email]) {
+      err.textContent = 'That email is already used by another account.';
+      err.classList.add('show'); return;
+    }
+    const existing = users[user.email];
+    if (!existing) return;
+    if (email !== user.email) { users[email] = { ...existing }; delete users[user.email]; }
+    const target = users[email];
+    target.name = name;
+    target.email = email;
+    target.avatar = name.slice(0, 2).toUpperCase();
+    if (pass && pass.length >= 6) target.password = pass;
+    saveUsers(users);
+    const session = { name, email, avatar: target.avatar, profilePic: target.profilePic || null };
+    loginUser(session);
+
+    document.getElementById('acc-name-display').textContent = name;
+    document.getElementById('acc-email-display').textContent = email;
+    renderAvatarInner({ avatar: target.avatar, profilePic: target.profilePic || null });
+    const saved = document.getElementById('profile-saved-msg');
+    saved.classList.add('show');
+    setTimeout(() => saved.classList.remove('show'), 2000);
+  });
+});
+</script>
+</body>
+</html>

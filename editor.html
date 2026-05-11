@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>SQL Editor - SQLearn</title>
+  <meta name="description" content="Try live SQL queries in your browser. No installation needed - write SELECT, INSERT, JOIN and more with instant results." />
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a href="index.html" class="logo">
+      <span class="badge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+      </span>
+      SQ<span class="accent">Learn</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html" data-route="index.html">Home</a>
+      <a href="lessons.html" data-route="lessons.html">Lessons</a>
+      <a href="editor.html" data-route="editor.html">SQL Editor</a>
+      <a href="practice.html" data-route="practice.html">Practice</a>
+      <a href="quiz.html" data-route="quiz.html">Quiz</a>
+      <a href="dashboard.html" data-route="dashboard.html">Dashboard</a>
+      <a href="about.html" data-route="about.html">About</a>
+    </nav>
+    <div class="header-right">
+      <div id="auth-nav-slot"></div>
+      <button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="menu-toggle" data-menu-toggle aria-label="Toggle menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" style="padding:3rem 0 2rem">
+  <div class="container">
+    <span class="eyebrow">Live SQL Editor</span>
+    <h1>Write real SQL. <span class="gradient-text">See results instantly.</span></h1>
+    <p class="lead">No installation needed. Query the built-in Students, Courses, and Grades tables - all running in your browser.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:1.5rem;padding-bottom:4rem">
+  <div class="container">
+    <div class="editor-layout">
+
+
+      <div class="editor-sidebar">
+        <div class="sidebar-head">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:.4rem"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+          SchoolDB
+        </div>
+        <div class="table-list">
+          <div class="table-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+            <div>
+              <div style="font-weight:600">Students</div>
+              <div class="col-list">
+                StudentID INT PK<br>
+                FirstName VARCHAR<br>
+                LastName VARCHAR<br>
+                Course VARCHAR<br>
+                EnrollDate DATE
+              </div>
+            </div>
+          </div>
+          <div class="table-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+            <div>
+              <div style="font-weight:600">Courses</div>
+              <div class="col-list">
+                CourseID VARCHAR PK<br>
+                CourseName VARCHAR<br>
+                Units INT
+              </div>
+            </div>
+          </div>
+          <div class="table-item">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+            <div>
+              <div style="font-weight:600">Grades</div>
+              <div class="col-list">
+                GradeID INT PK<br>
+                StudentID INT FK<br>
+                Subject VARCHAR<br>
+                Grade DECIMAL<br>
+                Semester VARCHAR
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:1rem;border-top:1px solid var(--border)">
+          <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.5rem">Keyboard</div>
+          <div style="font-size:.78rem;color:var(--muted);line-height:1.8">
+            <kbd style="background:var(--border);padding:.1rem .4rem;border-radius:4px;font-family:monospace">Ctrl+Enter</kbd> Run query<br>
+            <kbd style="background:var(--border);padding:.1rem .4rem;border-radius:4px;font-family:monospace">Tab</kbd> Insert 2 spaces
+          </div>
+        </div>
+      </div>
+
+
+      <div class="editor-main">
+        <div style="margin-bottom:.75rem">
+          <div style="font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.08em">Quick Queries</div>
+          <div class="quick-queries">
+            <button class="quick-q-btn" data-q="SELECT * FROM Students;">All Students</button>
+            <button class="quick-q-btn" data-q="SELECT * FROM Courses;">All Courses</button>
+            <button class="quick-q-btn" data-q="SELECT * FROM Grades;">All Grades</button>
+            <button class="quick-q-btn" data-q="SELECT FirstName, LastName, Course FROM Students WHERE Course = 'BSIT' ORDER BY LastName;">BSIT Students</button>
+            <button class="quick-q-btn" data-q="SELECT Course, COUNT(*) AS Total FROM Students GROUP BY Course ORDER BY Total DESC;">Count per Course</button>
+            <button class="quick-q-btn" data-q="SELECT s.FirstName, s.LastName, c.CourseName FROM Students s INNER JOIN Courses c ON s.Course = c.CourseID;">JOIN Example</button>
+            <button class="quick-q-btn" data-q="SHOW TABLES;">Show Tables</button>
+          </div>
+        </div>
+
+        <div class="editor-box">
+          <div class="editor-toolbar">
+            <div class="toolbar-left">
+              <span style="color:rgba(255,255,255,.5);font-size:.8rem;font-family:'JetBrains Mono',monospace">SQL Editor</span>
+              <span class="db-badge">SchoolDB</span>
+            </div>
+            <div style="display:flex;gap:.5rem">
+              <button class="clear-btn" id="clear-btn">Clear</button>
+              <button class="run-btn" id="run-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                Run
+              </button>
+            </div>
+          </div>
+          <textarea
+            id="sql-editor"
+            placeholder="-- Write your SQL query here...
+-- Example: SELECT * FROM Students;
+-- Tip: Press Ctrl+Enter to run!"
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          >SELECT * FROM Students;</textarea>
+        </div>
+
+        <div class="results-box">
+          <div class="results-head">
+            <h3>Results</h3>
+            <span class="results-meta" id="results-meta">Ready</span>
+          </div>
+          <div class="results-inner" id="results-content">
+            <div class="results-empty">Run a query to see results here.</div>
+          </div>
+        </div>
+
+        <div class="taglish-box" style="margin-top:1rem">
+          <div class="taglish-label">Tip for beginners</div>
+          <p>Try running the Quick Queries above to see how each SQL command works. Then try editing them — for example, replace <code style="background:var(--accent);padding:.1rem .3rem;border-radius:3px">'BSIT'</code> with <code style="background:var(--accent);padding:.1rem .3rem;border-radius:3px">'BSCS'</code> in the WHERE clause and run it again. That is how you learn SQL — hands on!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <div class="logo" style="margin-bottom:.75rem">
+          <span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+          SQ<span class="accent">Learn</span>
+        </div>
+        <p style="color:var(--muted);font-size:.9rem;max-width:42ch">A structured, beginner-friendly Microsoft SQL tutorial built for BSIT students at Pamantasan ng Lungsod ng Valenzuela.</p>
+      </div>
+      <div>
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="lessons.html">All lessons</a></li>
+          <li><a href="editor.html">SQL Editor</a></li>
+          <li><a href="practice.html">Practice</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Assess</h4>
+        <ul>
+          <li><a href="quiz.html">Quiz</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">© <span data-year></span> SQLearn. Built with care for future developers.
+      <span style="margin:0 .5rem;color:var(--border)">|</span>
+      <a href="privacy.html" style="color:var(--muted)">Privacy Policy</a>
+      <span style="margin:0 .35rem;color:var(--border)">&bull;</span>
+      <a href="terms.html" style="color:var(--muted)">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

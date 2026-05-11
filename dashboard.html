@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Dashboard - SQLearn</title>
+  <meta name="description" content="Track your SQL learning progress, completed lessons, quiz scores, and achievements." />
+</head>
+<body>
+<header class="site-header">
+  <div class="inner">
+    <a href="index.html" class="logo">
+      <span class="badge">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+      </span>
+      SQ<span class="accent">Learn</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="index.html" data-route="index.html">Home</a>
+      <a href="lessons.html" data-route="lessons.html">Lessons</a>
+      <a href="editor.html" data-route="editor.html">SQL Editor</a>
+      <a href="practice.html" data-route="practice.html">Practice</a>
+      <a href="quiz.html" data-route="quiz.html">Quiz</a>
+      <a href="dashboard.html" data-route="dashboard.html">Dashboard</a>
+      <a href="about.html" data-route="about.html">About</a>
+    </nav>
+    <div class="header-right">
+      <div id="auth-nav-slot"></div>
+      <button class="dark-toggle" id="dark-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="menu-toggle" data-menu-toggle aria-label="Toggle menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" style="padding:3rem 0 2rem">
+  <div class="container">
+    <span class="eyebrow">My Dashboard</span>
+    <h1>Your <span class="gradient-text">learning progress.</span></h1>
+    <p class="lead">See how far you've come - lessons completed, quizzes taken, and achievements unlocked.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:1.5rem" id="dashboard-root">
+  <div class="container">
+    <div class="dashboard-grid">
+      <div>
+
+        <div class="card" style="margin-bottom:1.5rem">
+          <div class="progress-header">
+            <div>
+              <h3 style="font-size:1.1rem">Overall Progress</h3>
+              <div style="font-size:.85rem;color:var(--muted);margin-top:.2rem" id="overall-count">0 / 8 lessons</div>
+            </div>
+            <div style="font-family:'DM Serif Display',serif;font-size:1.75rem;font-weight:700;color:var(--primary)" id="overall-pct">0%</div>
+          </div>
+          <div class="overall-bar mt-2">
+            <div class="overall-fill" id="overall-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+
+        <h3 style="font-size:1.1rem;margin-bottom:.25rem">Lesson Tracker</h3>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:.25rem">Lessons are marked complete when you open them.</p>
+        <div class="lesson-progress-list" id="lesson-progress-list">
+
+        </div>
+
+        <div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">
+          <a href="lessons.html" class="btn btn-primary">Continue Learning</a>
+          <button class="btn btn-outline" onclick="if(confirm('Reset all progress?')){setProgress({});location.reload()}">Reset Progress</button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:1.25rem">
+
+        <div class="streak-card">
+          <div class="streak-num" id="streak-num">0</div>
+          <div class="streak-lbl">Lessons Completed</div>
+          <div class="streak-sub">Keep going - finish all 8 lessons!</div>
+        </div>
+
+
+        <div style="display:flex;gap:.75rem">
+          <div class="card" style="flex:1;text-align:center;padding:1rem .75rem">
+            <div style="font-family:'DM Serif Display',serif;font-size:1.75rem;font-weight:700;color:var(--primary)" id="dash-total-quizzes">0</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-top:.2rem">Quizzes Taken</div>
+          </div>
+          <div class="card" style="flex:1;text-align:center;padding:1rem .75rem">
+            <div style="font-family:'DM Serif Display',serif;font-size:1.75rem;font-weight:700;color:var(--primary)" id="dash-best-score">—</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-top:.2rem">Best Quiz Score</div>
+          </div>
+        </div>
+
+
+        <div class="card">
+          <h4 style="font-size:.9rem;margin-bottom:.85rem">Quick Actions</h4>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <a href="lessons.html" class="btn btn-primary btn-sm" style="justify-content:center">Browse Lessons</a>
+            <a href="quiz.html" class="btn btn-outline btn-sm" style="justify-content:center">Take a Quiz</a>
+            <a href="editor.html" class="btn btn-outline btn-sm" style="justify-content:center">Open SQL Editor</a>
+            <a href="practice.html" class="btn btn-outline btn-sm" style="justify-content:center">Practice Challenges</a>
+          </div>
+        </div>
+
+
+        <div class="card">
+          <h4 style="font-size:.9rem;margin-bottom:.85rem">Achievements</h4>
+          <div class="achievement-grid">
+            <div class="achievement locked" data-unlock="1">
+              <div class="ach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+              <div class="ach-name">First Step</div>
+            </div>
+            <div class="achievement locked" data-unlock="3">
+              <div class="ach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+              <div class="ach-name">On a Roll</div>
+            </div>
+            <div class="achievement locked" data-unlock="5">
+              <div class="ach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <div class="ach-name">Halfway</div>
+            </div>
+            <div class="achievement locked" data-unlock="8">
+              <div class="ach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+              <div class="ach-name">Completed!</div>
+            </div>
+            <div class="achievement locked" data-unlock="6">
+              <div class="ach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></div>
+              <div class="ach-name">SQL Pro</div>
+            </div>
+            <div class="achievement locked" data-unlock="2">
+              <div class="ach-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+              <div class="ach-name">Consistent</div>
+            </div>
+          </div>
+          <p style="font-size:.78rem;color:var(--muted);margin-top:.75rem">Unlock achievements by completing more lessons!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <div class="logo" style="margin-bottom:.75rem">
+          <span class="badge"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
+          SQ<span class="accent">Learn</span>
+        </div>
+        <p style="color:var(--muted);font-size:.9rem;max-width:42ch">A structured, beginner-friendly Microsoft SQL tutorial built for BSIT students at Pamantasan ng Lungsod ng Valenzuela.</p>
+      </div>
+      <div><h4>Learn</h4><ul><li><a href="lessons.html">All lessons</a></li><li><a href="editor.html">SQL Editor</a></li><li><a href="practice.html">Practice</a></li></ul></div>
+      <div><h4>Assess</h4><ul><li><a href="quiz.html">Quiz</a></li><li><a href="dashboard.html">Dashboard</a></li></ul></div>
+      <div><h4>Project</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="account.html">My Account</a></li></ul></div>
+    </div>
+    <div class="bottom">© <span data-year></span> SQLearn. Built with care for future developers.
+      <span style="margin:0 .5rem;color:var(--border)">|</span>
+      <a href="privacy.html" style="color:var(--muted)">Privacy Policy</a>
+      <span style="margin:0 .35rem;color:var(--border)">&bull;</span>
+      <a href="terms.html" style="color:var(--muted)">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
